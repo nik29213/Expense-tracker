@@ -7,26 +7,27 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Data
 @Table(name="user")
-public class User {
+public  class User {
 	
 	@Id
+	
 	private Long id;
 	
-	private String name;
+	 private String name;
+	 
+	 private String email;
+	 
 	
-	private String email;
-	
-	@OneToMany
-	private Set<Category> category;
-	
-
 }
