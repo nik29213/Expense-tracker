@@ -25,6 +25,8 @@ public class Expense {
 	 
 	 private String descript;
 	 
+	
+	 
 	 @ManyToOne
 	 private Category category;
 	 
