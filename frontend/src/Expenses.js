@@ -10,11 +10,11 @@ import {Link} from 'react-router-dom';
 
 class Expenses extends Component {
     emptyItem = {
-        id : '103',
+        id : 103,
         description : '',
         expensedateInstant : new Date(),
         location : '',
-        categories : [4, "grocery"]
+        category : [4, "grocery"]
 
     }
     constructor(props) {
@@ -29,7 +29,7 @@ class Expenses extends Component {
     }
     
      async remove(id){
-         await fetch('/api/v1/expenses/${id}' , {
+         await fetch(`/api/v1/expense/${id}` , {
              method : 'DELETE',
              headers :{
                  'Accept' : 'application/json',
@@ -37,13 +37,13 @@ class Expenses extends Component {
              }
 
             }).then(() => {
-                let updateExpenses= [...this.state.Expenses].filter(i => i.id!==id);  
-                this.setState({Expenses : updateExpenses});          
+                let updateExpenses= [...this.state.expenses].filter(i => i.id!==id);  
+                this.setState({Expenses : updateExpenses});      
+            
 
-});  
-
- }
-
+            });  
+        }
+        
      
      async componentDidMount(){
          const response= await fetch('/api/v1/categories');
@@ -52,7 +52,7 @@ class Expenses extends Component {
 
          const responseExp = await fetch('/api/v1/expenses');
          const bodyExp=await responseExp.json();
-         this.setState({expenses : body , isLoading : false});
+         this.setState({expenses : bodyExp , isLoading : false});
      }
     render() {
         
@@ -72,13 +72,13 @@ class Expenses extends Component {
             )
 
         let rows= 
-        Expenses.map( expense =>
+        expenses.map( expense =>
             <tr>
                 <td>{expense.description}</td>
                 <td>{expense.location}</td>
-                <td>{expense.expensedate}</td>
+                <td>{expense.expensedateInstant}</td>
                 <td>{expense.category.name}</td>
-                <td><Button size="5m" color="danger" onClick ={ () => this.remove(expense.id)}>Delete </Button></td>
+                <td><Button size="sm" color="danger" onClick ={ () => this.remove(expense.id)}>Delete </Button></td>
 
 
             </tr>
@@ -127,8 +127,9 @@ class Expenses extends Component {
                    <table className="mt-4">
                         <thead>
                             <tr>
-                                <th width="20%">Discription</th>
+                                <th width="20%">Description</th>
                                 <th width="10%">Location</th>
+                                <th width="10%">Date</th>
                                 <th >Category</th>
                                 <th width="">Action</th>
                             </tr>
