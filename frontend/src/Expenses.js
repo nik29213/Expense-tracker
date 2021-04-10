@@ -1,40 +1,57 @@
 import React, { Component } from 'react'; 
 import AppNav from './AppNav';
- import DatePicker from 'react-datepicker';
-  import "react-datepicker/dist/react-datepicker.css";
-  import './App.css';
-  import {Container,Form,Label, FormGroup,Input,Button} from 'reactstrap';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import './App.css';
+import {Container,Form,Label, FormGroup,Input,Button} from 'reactstrap';
 
-  import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
   
 
-
 class Expenses extends Component {
-    state = { 
-        date:new Date(),
-        isLoading:true,
-        expenses:[],
-        categories :[]
-     }
+    emptyItem = {
+        id : '103',
+        description : '',
+        expensedateInstant : new Date(),
+        location : '',
+        categories : [4, "grocery"]
+
+    }
+    constructor(props) {
+        super(props)
+        this.state = { 
+            date:new Date(),
+            isLoading:true,
+            expenses:[],
+            categories :[],
+            items : this.emptyItem
+         }
+    }
+    
      async componentDidMount(){
-         const response= await fetch('/api/categories');
+         const response= await fetch('/api/v1/categories');
          const body=await response.json();
-         this.setState({categories : body , isLoading : false}); 
+         this.setState({categories : body}); 
+
+         const responseExp = await fetch('/api/v1/expenses');
+         const bodyExp=await responseExp.json();
+         this.setState({expenses : body , isLoading : false});
      }
     render() {
         
         const title=<h2>Add Expense</h2>
-        const {categories, isLoading}=this.state;
+        const {categories} = this.state;
+        const {expenses, isLoading} = this.state;
+        
 
         if(isLoading)
-            return (<div>Loading</div>);
+            return (<div>Loading</div>)
 
         
-        let optionList= categories.map( category => 
-                <option id={category.id}> {category.name}
-
-                </option>
-
+        let optionList = categories.map(category=>
+            <option id={category.id}>
+            {category.name}
+            </option>
             )
         return ( 
             <div>
@@ -71,6 +88,13 @@ class Expenses extends Component {
                           <Button color='secondary' tag={Link} to="/categories">Cancel</Button>
                            </FormGroup>
                    </Form>
+               </Container>
+
+               <Container>
+                   <h3>Expenses List</h3>
+                   <table>
+                        
+                   </table>
                </Container>
             </div>
          );

@@ -40,8 +40,8 @@ public class CategoryController {
 		
 		@GetMapping("/category/{id}")
 		ResponseEntity<?> getCategory(@PathVariable Long id){
-		Optional<Category> category = categoryRepository.findById(id);
-		 return category.map(response -> ResponseEntity.ok().body(response))
+			Optional<Category> category = categoryRepository.findById(id);
+			return category.map(response -> ResponseEntity.ok().body(response))
 				 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		 
 		}

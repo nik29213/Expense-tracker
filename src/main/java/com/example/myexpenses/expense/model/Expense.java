@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -21,15 +22,16 @@ public class Expense {
 	 @Id
 	 private Long id;
 	 
+	 private String description;
+	 
 	 private Instant expensedateInstant;
 	 
-	 private String descript;
-	 
-	
+	 private String location;
 	 
 	 @ManyToOne
 	 private Category category;
 	 
+	 @JsonIgnore
 	 @ManyToOne
 	 private User user;
 
@@ -41,6 +43,14 @@ public class Expense {
 		this.id = id;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescript(String description) {
+		this.description = description;
+	}
+
 	public Instant getExpensedateInstant() {
 		return expensedateInstant;
 	}
@@ -49,12 +59,12 @@ public class Expense {
 		this.expensedateInstant = expensedateInstant;
 	}
 
-	public String getDescript() {
-		return descript;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setDescript(String descript) {
-		this.descript = descript;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public Category getCategory() {
@@ -73,6 +83,8 @@ public class Expense {
 		this.user = user;
 	}
 	 
+
+		 
 	 
 	 
 }
