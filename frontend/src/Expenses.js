@@ -28,6 +28,23 @@ class Expenses extends Component {
          }
     }
     
+     async remove(id){
+         await fetch('/api/v1/expenses/${id}' , {
+             method : 'DELETE',
+             headers :{
+                 'Accept' : 'application/json',
+                 'Content-Type' : 'application/json'
+             }
+
+            }).then(() => {
+                let updateExpenses= [...this.state.Expenses].filter(i => i.id!==id);  
+                this.setState({Expenses : updateExpenses});          
+
+});  
+
+ }
+
+     
      async componentDidMount(){
          const response= await fetch('/api/v1/categories');
          const body=await response.json();
@@ -53,6 +70,21 @@ class Expenses extends Component {
             {category.name}
             </option>
             )
+
+        let rows= 
+        Expenses.map( expense =>
+            <tr>
+                <td>{expense.description}</td>
+                <td>{expense.location}</td>
+                <td>{expense.expensedate}</td>
+                <td>{expense.category.name}</td>
+                <td><Button size="5m" color="danger" onClick ={ () => this.remove(expense.id)}>Delete </Button></td>
+
+
+            </tr>
+            )
+
+
         return ( 
             <div>
                 <AppNav/>
@@ -92,8 +124,18 @@ class Expenses extends Component {
 
                <Container>
                    <h3>Expenses List</h3>
-                   <table>
-                        
+                   <table className="mt-4">
+                        <thead>
+                            <tr>
+                                <th width="20%">Discription</th>
+                                <th width="10%">Location</th>
+                                <th >Category</th>
+                                <th width="">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>
                    </table>
                </Container>
             </div>
